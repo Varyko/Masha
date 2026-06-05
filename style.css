@@ -91,7 +91,11 @@ body::after {
 #s3 .screen-video { background: url("Assets/sc-3.png"); background-size: cover; }
 #s3e .screen-video { background: url("Assets/sc-4.png"); background-size: cover;}
 #s3ec {background: url("Assets/sc-4.png"); background-size: cover;}
-#s3es {background: url("Assets/yandex-slide-1.jpeg"); background-size: cover;}
+#s3h {background: url("Assets/sc-5.png"); background-size: cover;}
+#s3d {background: url("Assets/sc-6.png"); background-size: cover;}
+#s3r {background: url("Assets/sc-7.png"); background-size: cover;}
+#s4 .screen-video { background: url("Assets/sc-8.png"); background-size: cover; }
+#s5 .screen-video { background: url("Assets/sc-8.png"); background-size: cover; }
 
 /* ─── CONTENT LAYER ──────────────────────────────────────── */
 .content {
