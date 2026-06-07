@@ -129,49 +129,66 @@ document.addEventListener('click', () => {
   allPopups.forEach(p => p.classList.remove('pop-up__visible'));
 });
 
-/* ─── SLIDER (s3ec) ──────────────────────────────────── */
+/* ─── SLIDER (s3) ──────────────────────────────────── */
 
-function ecInitSwipers() {
-  const swiperConfig = {
-    loop: true,
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-    pagination:  { el: '.swiper-pagination', clickable: true },
-    breakpoints: {
-      0:   { slidesPerView: 1,   spaceBetween: 10 },
-      640: { slidesPerView: 1.5, spaceBetween: 14 },
-      900: { slidesPerView: 2,   spaceBetween: 18 },
-    }
-  };
+const SWIPER_CONFIG = {
+  loop: true,
+  navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+  pagination:  { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    0:   { slidesPerView: 1,   spaceBetween: 10 },
+    640: { slidesPerView: 1.5, spaceBetween: 14 },
+    900: { slidesPerView: 2,   spaceBetween: 18 },
+  }
+};
 
-  // Lazy-init: create a Swiper the first time a panel becomes visible
+function initScreenSwipers(screenEl) {
+  // Prevent double-init
+  if (screenEl.dataset.swipersReady) return;
+  screenEl.dataset.swipersReady = 'true';
+
+  const tabs   = Array.from(screenEl.querySelectorAll('.ec-tabs li'));
+  const panels = Array.from(screenEl.querySelectorAll('.ec-panel'));
   const swipers = {};
 
-  
-  function activatePanel(idx) {
-    // tabs
-    document.querySelectorAll('.ec-tabs li').forEach((t, i) =>
-      t.classList.toggle('active', i === idx)
-    );
-    // panels
-    document.querySelectorAll('.ec-panel').forEach((p, i) =>
-      p.classList.toggle('active', i === idx)
-    );
-    // init swiper once, then update
-    if (!swipers[idx]) swipers[idx] = new Swiper('#ec-swiper-' + idx, swiperConfig);
-    else swipers[idx].update();
+  function activateTab(idx) {
+    // Toggle active class only within this screen
+    tabs.forEach((t, i)   => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+
+    // Lazy-init: create Swiper only when panel first becomes visible
+    const swiperEl = panels[idx]?.querySelector('.swiper');
+    if (swiperEl && !swipers[idx]) {
+      swipers[idx] = new Swiper(swiperEl, SWIPER_CONFIG);
+    } else if (swipers[idx]) {
+      swipers[idx].update();
+    }
   }
 
-  // Wire up tab clicks
-  document.querySelectorAll('.ec-tabs li').forEach(tab => {
+  tabs.forEach((tab, i) => {
     tab.addEventListener('click', e => {
       e.stopPropagation();
-      activatePanel(+tab.dataset.panel);
+      activateTab(i);
       spawnParticles(e.clientX, e.clientY, 8);
     });
   });
 
-  // Init default panel on load
-  activatePanel(0);
+  // Show first tab by default
+  activateTab(0);
 }
 
-document.addEventListener('DOMContentLoaded', ecInitSwipers);
+// Initialize a screen the first time it becomes .visible
+const screenObserver = new MutationObserver(mutations => {
+  mutations.forEach(({ target }) => {
+    if (target.classList.contains('visible')) {
+      initScreenSwipers(target);
+    }
+  });
+});
+
+document.querySelectorAll('.screen').forEach(screen => {
+  // Only observe screens that actually contain swiper tabs
+  if (screen.querySelector('.ec-tabs')) {
+    screenObserver.observe(screen, { attributes: true, attributeFilter: ['class'] });
+  }
+});
