@@ -129,6 +129,28 @@ document.addEventListener('click', () => {
   allPopups.forEach(p => p.classList.remove('pop-up__visible'));
 });
 
+//for profile
+const allAwards = document.querySelectorAll('.awards__card');
+document.querySelectorAll('.awards__coin').forEach(item =>{
+  item.addEventListener('click', e =>{
+    e.stopPropagation();
+
+    const awardTargetId = 'award-' + item.dataset.award;
+    const targetAward = document.getElementById(awardTargetId);
+    const isOpen = targetAward.classList.contains('awards__card__visible');
+
+    allAwards.forEach(a => a.classList.remove('awards__card__visible'));
+
+    if(!isOpen){
+      targetAward.classList.add('awards__card__visible');
+    }
+  })
+});
+
+document.addEventListener('click', ()=>{
+  allAwards.forEach(a => a.classList.remove('awards__card__visible'));
+})
+
 /* ─── SLIDER (s3) ──────────────────────────────────── */
 
 const SWIPER_CONFIG = {
