@@ -841,25 +841,36 @@ display: none;
     width: 100%;
     height: auto;
     flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 0.5em;
+    align-items: center;
+    gap: 16px;
+    padding: 0;
+    z-index: 3;
+  }
+
+  .award__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .awards__coin {
     width: 72px;
+    position: static; /* override any leftover absolute positioning */
+    transform: none;
   }
 
+  /* Award cards: centered overlay when open */
   .awards__card__visible {
-    width: min(280px, 85vw);
-    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+    width: min(300px, 88vw);
+    font-size: clamp(0.72rem, 1.4vw, 0.95rem);
   }
 
   #award-xp, #award-edu, #award-prix, #award-goal {
     position: fixed;
     left: 50%;
-    top: 50%;
+    top: 40%;
     transform: translate(-50%, -50%);
     z-index: 100;
     width: min(320px, 90vw);
@@ -969,19 +980,19 @@ display: none;
   }
 
   .awards-container {
-    position: absolute;
-    left: 70%;
-    bottom: 10%;
-    transform: translateX(-50%);
-    z-index: 10;
+   
 
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8px;
 
-    width: 100%;
-    padding: 0 12px;
+
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    z-index: 10;
+    
   }
 
 
