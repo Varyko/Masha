@@ -1087,7 +1087,7 @@ display: none;
     justify-content: flex-start;
     overflow-y: auto;
     padding-top: 2rem;
-    gap: 0.25rem;
+    gap: 0.15rem;
 
   }
 
@@ -1115,8 +1115,8 @@ display: none;
   }
 
   .team__avatar {
-    width: 72px !important;
-    height: 72px !important;
+    width: 55px !important;
+    height: 55px !important;
     object-fit: cover;
     border-radius: 4px;
     flex-shrink: 0;
